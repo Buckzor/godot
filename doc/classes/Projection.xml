@@ -141,20 +141,6 @@
 				[param flip_fov] determines whether the projection's field of view is flipped over its diagonal.
 			</description>
 		</method>
-		<method name="create_blended" qualifiers="static">
-			<return type="Projection" />
-			<param index="0" name="fovy" type="float" />
-			<param index="1" name="size" type="float" />
-			<param index="2" name="distance" type="float" />
-			<param index="3" name="aspect" type="float" />
-			<param index="4" name="z_near" type="float" />
-			<param index="5" name="z_far" type="float" />
-			<param index="6" name="flip_fov" type="bool" default="false" />
-			<description>
-				Creates a new [Projection] that projects positions using a blended perspective to orthogonal projection with the given Y-axis field of view (in degrees), X:Y aspect ratio, and clipping planes.
-				[param flip_fov] determines whether the projection's field of view is flipped over its diagonal.
-			</description>
-		</method>
 		<method name="create_perspective_hmd" qualifiers="static">
 			<return type="Projection" />
 			<param index="0" name="fovy" type="float" />

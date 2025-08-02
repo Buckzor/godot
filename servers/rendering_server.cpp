@@ -2793,7 +2793,6 @@ void RenderingServer::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("camera_create"), &RenderingServer::camera_create);
 	ClassDB::bind_method(D_METHOD("camera_set_perspective", "camera", "fovy_degrees", "z_near", "z_far"), &RenderingServer::camera_set_perspective);
 	ClassDB::bind_method(D_METHOD("camera_set_orthogonal", "camera", "size", "z_near", "z_far"), &RenderingServer::camera_set_orthogonal);
-	ClassDB::bind_method(D_METHOD("camera_set_blended", "camera", "fovy_degrees", "size", "distance", "z_near", "z_far"), &RenderingServer::camera_set_blended);
 	ClassDB::bind_method(D_METHOD("camera_set_frustum", "camera", "size", "offset", "z_near", "z_far"), &RenderingServer::camera_set_frustum);
 	ClassDB::bind_method(D_METHOD("camera_set_transform", "camera", "transform"), &RenderingServer::camera_set_transform);
 	ClassDB::bind_method(D_METHOD("camera_set_cull_mask", "camera", "layers"), &RenderingServer::camera_set_cull_mask);

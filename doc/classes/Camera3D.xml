@@ -140,17 +140,6 @@
 				Sets the camera projection to perspective mode (see [constant PROJECTION_PERSPECTIVE]), by specifying a [param fov] (field of view) angle in degrees, and the [param z_near] and [param z_far] clip planes in world space units.
 			</description>
 		</method>
-		<method name="set_blended">
-			<return type="void" />
-			<param index="0" name="fov" type="float" />
-			<param index="1" name="size" type="float" />
-			<param index="2" name="distance" type="float" />
-			<param index="3" name="z_near" type="float" />
-			<param index="4" name="z_far" type="float" />
-			<description>
-				Sets the camera projection to blended mode (see [constant PROJECTION_BLENDED]), by specifying a [param fov] (field of view) angle in degrees, [param size], [param distance] and the [param z_near] and [param z_far] clip planes in world space units.
-			</description>
-		</method>
 		<method name="unproject_position" qualifiers="const">
 			<return type="Vector2" />
 			<param index="0" name="world_point" type="Vector3" />
@@ -219,9 +208,6 @@
 		<member name="size" type="float" setter="set_size" getter="get_size" default="1.0">
 			The camera's size in meters measured as the diameter of the width or height, depending on [member keep_aspect]. Only applicable in orthogonal and frustum modes.
 		</member>
-		<member name="distance" type="float" setter="set_distance" getter="get_distance" default="10.0">
-			The camera's distance in measured meters over which the projection blends from perspective into orthographic. Only applicable in blended mode.
-		</member>
 		<member name="v_offset" type="float" setter="set_v_offset" getter="get_v_offset" default="0.0">
 			The vertical (Y) offset of the camera viewport.
 		</member>
@@ -235,9 +221,6 @@
 		</constant>
 		<constant name="PROJECTION_FRUSTUM" value="2" enum="ProjectionType">
 			Frustum projection. This mode allows adjusting [member frustum_offset] to create "tilted frustum" effects.
-		</constant>
-		<constant name="PROJECTION_BLENDED" value="3" enum="ProjectionType">
-			Blended projection. Starts as perspective projection at the camera origin and converges into orthogonal over a set distance.
 		</constant>
 		<constant name="KEEP_WIDTH" value="0" enum="KeepAspect">
 			Preserves the horizontal aspect ratio; also known as Vert- scaling. This is usually the best option for projects running in portrait mode, as taller aspect ratios will benefit from a wider vertical FOV.

@@ -96,17 +96,6 @@ void RendererSceneCull::camera_set_orthogonal(RID p_camera, float p_size, float 
 	camera->zfar = p_z_far;
 }
 
-void RendererSceneCull::camera_set_blended(RID p_camera, float p_fovy_degrees, float p_size, float p_distance, float p_z_near, float p_z_far) {
-	Camera *camera = camera_owner.get_or_null(p_camera);
-	ERR_FAIL_NULL(camera);
-	camera->type = Camera::BLENDED;
-	camera->fov = p_fovy_degrees;
-	camera->size = p_size;
-	camera->distance = p_distance;
-	camera->znear = p_z_near;
-	camera->zfar = p_z_far;
-}
-
 void RendererSceneCull::camera_set_frustum(RID p_camera, float p_size, Vector2 p_offset, float p_z_near, float p_z_far) {
 	Camera *camera = camera_owner.get_or_null(p_camera);
 	ERR_FAIL_NULL(camera);
@@ -2718,17 +2707,6 @@ void RendererSceneCull::render_camera(const Ref<RenderSceneBuffers> &p_render_bu
 			case Camera::PERSPECTIVE: {
 				projection.set_perspective(
 						camera->fov,
-						p_viewport_size.width / (float)p_viewport_size.height,
-						camera->znear,
-						camera->zfar,
-						camera->vaspect);
-
-			} break;
-			case Camera::BLENDED: {
-				projection.set_blended(
-						camera->fov,
-						camera->size,
-						camera->distance,
 						p_viewport_size.width / (float)p_viewport_size.height,
 						camera->znear,
 						camera->zfar,
