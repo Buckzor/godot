@@ -120,6 +120,12 @@ Projection Projection::create_perspective(real_t p_fovy_degrees, real_t p_aspect
 	return proj;
 }
 
+Projection Projection::create_blended(real_t p_fovy_degrees, real_t p_size, real_t p_distance, real_t p_aspect, real_t p_z_near, real_t p_z_far, bool p_flip_fov) {
+	Projection proj;
+	proj.set_blended(p_fovy_degrees, p_size, p_distance, p_aspect, p_z_near, p_z_far, p_flip_fov);
+	return proj;
+}
+
 Projection Projection::create_perspective_hmd(real_t p_fovy_degrees, real_t p_aspect, real_t p_z_near, real_t p_z_far, bool p_flip_fov, int p_eye, real_t p_intraocular_dist, real_t p_convergence_dist) {
 	Projection proj;
 	proj.set_perspective(p_fovy_degrees, p_aspect, p_z_near, p_z_far, p_flip_fov, p_eye, p_intraocular_dist, p_convergence_dist);
@@ -273,6 +279,45 @@ void Projection::set_perspective(real_t p_fovy_degrees, real_t p_aspect, real_t 
 	columns[2][3] = -1;
 	columns[3][2] = -2 * p_z_near * p_z_far / deltaZ;
 	columns[3][3] = 0;
+}
+
+void Projection::set_blended(real_t p_fovy_degrees, real_t p_size, real_t p_distance, 
+                            real_t p_aspect, real_t p_z_near, real_t p_z_far, bool p_flip_fov) {
+    if (p_flip_fov) {
+        p_fovy_degrees = get_fovy(p_fovy_degrees, 1.0 / p_aspect);
+    }
+
+    real_t radians = Math::deg_to_rad(p_fovy_degrees / 2.0);
+    real_t sine = Math::sin(radians);
+    
+    if (sine == 0.0 || p_aspect == 0.0 || p_z_far <= p_z_near) {
+        set_identity();
+        return;
+    }
+    
+    // Calculate the base FOV scaling
+    real_t cotangent = Math::cos(radians) / sine;
+    
+    // Calculate FOV reduction factor based on distance
+    real_t fov_reduction = 0.0;
+    if (p_distance > p_z_near) {
+        // FOV reduction increases with distance
+        // p_size controls how much FOV is reduced at p_distance
+        fov_reduction = p_size * (p_distance - p_z_near) / p_distance;
+    }
+    
+    // Apply FOV reduction (making FOV smaller at distance)
+    real_t effective_cot = cotangent * (1.0 + fov_reduction);
+    
+    // Standard perspective projection with modified FOV
+    set_identity();
+    
+    columns[0][0] = effective_cot / p_aspect;
+    columns[1][1] = effective_cot;
+    columns[2][2] = -(p_z_far + p_z_near) / (p_z_far - p_z_near);
+    columns[2][3] = -1.0;
+    columns[3][2] = -2.0 * p_z_near * p_z_far / (p_z_far - p_z_near);
+    columns[3][3] = 0.0;
 }
 
 void Projection::set_perspective(real_t p_fovy_degrees, real_t p_aspect, real_t p_z_near, real_t p_z_far, bool p_flip_fov, int p_eye, real_t p_intraocular_dist, real_t p_convergence_dist) {

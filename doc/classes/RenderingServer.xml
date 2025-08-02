@@ -173,6 +173,18 @@
 				Sets camera to use perspective projection. Objects on the screen becomes smaller when they are far away.
 			</description>
 		</method>
+		<method name="camera_set_blended">
+			<return type="void" />
+			<param index="0" name="camera" type="RID" />
+			<param index="1" name="fovy_degrees" type="float" />
+			<param index="2" name="size" type="float" />
+			<param index="3" name="distance" type="float" />
+			<param index="4" name="z_near" type="float" />
+			<param index="5" name="z_far" type="float" />
+			<description>
+				Sets camera to blended projection, objects close to camera are in perspective, distant objects are in orthographic projection.
+			</description>
+		</method>
 		<method name="camera_set_transform">
 			<return type="void" />
 			<param index="0" name="camera" type="RID" />

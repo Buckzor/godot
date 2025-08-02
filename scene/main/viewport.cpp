@@ -4381,17 +4381,38 @@ void Viewport::set_camera_3d_override_orthogonal(real_t p_size, real_t p_z_near,
 	}
 }
 
+void Viewport::set_camera_3d_override_blended(real_t p_fovy_degrees, real_t p_size, real_t p_distance, real_t p_z_near, real_t p_z_far) {
+	ERR_MAIN_THREAD_GUARD;
+	if (camera_3d_override) {
+		if (camera_3d_override.fov == p_fovy_degrees && camera_3d_override.size == p_size && camera_3d_override.distance == p_distance && camera_3d_override.z_near == p_z_near &&
+				camera_3d_override.z_far == p_z_far && camera_3d_override.projection == Camera3DOverrideData::PROJECTION_BLENDED) {
+			return;
+		}
+
+		camera_3d_override.fov = p_fovy_degrees;
+		camera_3d_override.size = p_size;
+		camera_3d_override.distance = p_distance;
+		camera_3d_override.z_near = p_z_near;
+		camera_3d_override.z_far = p_z_far;
+		camera_3d_override.projection = Camera3DOverrideData::PROJECTION_BLENDED;
+
+		RenderingServer::get_singleton()->camera_set_blended(camera_3d_override.rid, camera_3d_override.fov, camera_3d_override.size, camera_3d_override.distance, camera_3d_override.z_near, camera_3d_override.z_far);
+	}
+}
+
 HashMap<StringName, real_t> Viewport::get_camera_3d_override_properties() const {
 	HashMap<StringName, real_t> props;
 
 	props["size"] = 0;
 	props["fov"] = 0;
+	props["distance"] = 0;
 	props["z_near"] = 0;
 	props["z_far"] = 0;
 	ERR_READ_THREAD_GUARD_V(props);
 
 	props["size"] = camera_3d_override.size;
 	props["fov"] = camera_3d_override.fov;
+	props["distance"] = camera_3d_override.fov;
 	props["z_near"] = camera_3d_override.z_near;
 	props["z_far"] = camera_3d_override.z_far;
 	return props;

@@ -756,11 +756,13 @@ private:
 		Transform3D transform;
 		enum Projection {
 			PROJECTION_PERSPECTIVE,
-			PROJECTION_ORTHOGONAL
+			PROJECTION_ORTHOGONAL,
+			PROJECTION_BLENDED
 		};
 		Projection projection = Projection::PROJECTION_PERSPECTIVE;
 		real_t fov = 0.0;
 		real_t size = 0.0;
+		real_t distance = 0.0;
 		real_t z_near = 0.0;
 		real_t z_far = 0.0;
 		RID rid;
@@ -798,6 +800,7 @@ public:
 	Transform3D get_camera_3d_override_transform() const;
 
 	void set_camera_3d_override_perspective(real_t p_fovy_degrees, real_t p_z_near, real_t p_z_far);
+	void set_camera_3d_override_blended(real_t p_fovy_degrees, real_t p_size, real_t p_distance, real_t p_z_near, real_t p_z_far);
 	void set_camera_3d_override_orthogonal(real_t p_size, real_t p_z_near, real_t p_z_far);
 	HashMap<StringName, real_t> get_camera_3d_override_properties() const;
 
